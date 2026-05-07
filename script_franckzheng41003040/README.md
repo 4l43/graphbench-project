@@ -17,16 +17,15 @@ pip install -r requirements.txt
 
 ```bash
 # Lancer tout le benchmark (60s par conjecture)
-cd src
 python main.py
 
 # Limite de temps personnalisée
-python main.py --time 30
+python main.py --time 30 (pour 30s par conjecture)
 
 # Tester une conjecture spécifique
 python main.py --conjecture 980
 
-# Activer FunSearch (Partie 2, nécessite clé API Claude)
+# Activer FunSearch (Partie 2, nécessite une clé API Claude)
 python main.py --funsearch --funsearch-budget 300
 
 # Valider les contre-exemples connus du benchmark
