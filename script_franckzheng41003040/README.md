@@ -1,32 +1,11 @@
 # GraphBench — Réfutation automatique de conjectures en théorie des graphes
 
-> Projet Master 1 MIAGE — Dépôt final : 9 mai 2025
-
 ## Description
 
 Ce projet implémente un système capable de réfuter automatiquement des conjectures en théorie des graphes via deux approches :
 
 - **Partie 1** : Heuristique de recherche locale avec mutations
 - **Partie 2** : Architecture FunSearch — évolution automatique de la fonction de score via LLM (Claude)
-
-## Structure
-
-```
-graphbench-project/
-├── src/
-│   ├── conjecture.py      # Parser du benchmark, classe Conjecture
-│   ├── invariants.py      # Calcul de tous les invariants de graphe
-│   ├── graph_utils.py     # Générateurs, mutations, réparations
-│   ├── heuristic.py       # Moteur de recherche (Partie 1)
-│   ├── funsearch.py       # Architecture FunSearch (Partie 2)
-│   └── main.py            # Point d'entrée principal
-├── benchmark/
-│   └── benchmark.xlsx     # Les 100 conjectures à réfuter
-├── experiments/           # Scripts d'analyse
-├── results/               # Résultats JSON générés
-├── requirements.txt
-└── README.md
-```
 
 ## Installation
 
