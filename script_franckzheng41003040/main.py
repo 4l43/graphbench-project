@@ -24,7 +24,7 @@ from conjecture import load_benchmark
 from heuristic import search_counterexample, validate_counterexample, heuristic_score
 from graph_utils import satisfies_class
 
-BENCHMARK_PATH = os.path.join(os.path.dirname(__file__), "benchmark", "benchmark.xlsx")
+BENCHMARK_PATH = os.path.join(os.path.dirname(__file__), "..", "benchmark", "benchmark.xlsx")
 RESULTS_PATH = os.path.join(os.path.dirname(__file__), "..", "results")
 
 
@@ -46,9 +46,14 @@ def print_result(result, conjecture):
         print(f"    Violation: {result.violation:.6f}")
         print(f"    Graphe: n={result.graph.number_of_nodes()}, m={result.graph.number_of_edges()}")
         print(f"    graph6: {result.graph6}")
-        print(f"    {conjecture.x_name}={result.invariants.get(conjecture.x_name, '?'):.4f}, "
-              f"{conjecture.y_name}={result.invariants.get(conjecture.y_name, '?'):.4f}, "
-              f"borne={conjecture.bound(result.invariants.get(conjecture.x_name, 0)):.4f}")
+        def _fmt(v):
+            try: return f"{float(v):.4f}"
+            except: return str(v)
+        x_val = result.invariants.get(conjecture.x_name, 0)
+        y_val = result.invariants.get(conjecture.y_name, 0)
+        try: borne = f"{conjecture.bound(float(x_val)):.4f}"
+        except: borne = '?'
+        print(f"    {conjecture.x_name}={_fmt(x_val)}, {conjecture.y_name}={_fmt(y_val)}, borne={borne}")
     else:
         print(f"    Meilleure violation approchée: {result.violation:.6f}")
 

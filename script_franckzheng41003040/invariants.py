@@ -92,20 +92,49 @@ def total_domination_number(G):
                     domset.add(max(nbrs, key=lambda x: G.degree(x)))
     return len(domset)
 
-def independence_number(G):
-    """Taille du plus grand ensemble indépendant α(G)."""
-    return len(nx.maximal_independent_set(G))
+def independence_number(G, exact=False):
+    """
+    Taille du plus grand ensemble indépendant α(G).
+    exact=False: greedy rapide (pour la recherche)
+    exact=True:  exact via clique du complémentaire (pour la validation)
+    """
+    if G.number_of_nodes() == 0:
+        return 0
+    n = G.number_of_nodes()
+    if exact or n <= 20:
+        # Exact via clique dans le complémentaire
+        Gc = nx.complement(G)
+        cliques = list(nx.find_cliques(Gc))
+        return len(max(cliques, key=len)) if cliques else 1
+    else:
+        # Greedy déterministe: trier par degré croissant
+        nodes = sorted(G.nodes(), key=lambda v: G.degree(v))
+        ind_set = set()
+        excluded = set()
+        for v in nodes:
+            if v not in excluded:
+                ind_set.add(v)
+                excluded.update(G.neighbors(v))
+        return len(ind_set)
 
 def vertex_cover_number(G):
-    """Taille de la couverture minimum par sommets τ(G) = n - α(G) (König pour bipartis)."""
-    # Par le théorème de Gallai: τ = n - α
-    alpha = independence_number(G)
-    return G.number_of_nodes() - alpha
+    """Taille de la couverture minimum par sommets τ(G) = n - α(G) (Gallai)."""
+    return G.number_of_nodes() - independence_number(G)
 
 def independent_domination_number(G):
-    """Nombre de domination indépendante = α dans un domset indépendant maximal."""
-    # Un ensemble indépendant maximal est aussi un ensemble dominant indépendant
-    ind_set = nx.maximal_independent_set(G)
+    """
+    Nombre de domination indépendante i(G).
+    Greedy déterministe: MIS par degré croissant (est toujours dominant).
+    """
+    if G.number_of_nodes() == 0:
+        return 0
+    nodes = sorted(G.nodes(), key=lambda v: G.degree(v))
+    ind_set = set()
+    excluded = set()
+    for v in nodes:
+        if v not in excluded:
+            ind_set.add(v)
+            excluded.update(G.neighbors(v))
     return len(ind_set)
 
 def matching_number(G):
