@@ -7,6 +7,25 @@ import time
 import random
 import threading
 import networkx as nx
+from collections import defaultdict
+
+# Compteur global des mutations utilisées (réinitialisé à chaque run)
+MUTATION_COUNTER = defaultdict(int)
+
+def reset_mutation_counter():
+    """Réinitialise le compteur de mutations."""
+    MUTATION_COUNTER.clear()
+
+def print_mutation_stats():
+    """Affiche les statistiques des mutations utilisées."""
+    if not MUTATION_COUNTER:
+        print("  Aucune mutation enregistrée.")
+        return
+    total = sum(MUTATION_COUNTER.values())
+    print(f"  Total mutations: {total}")
+    for name, count in sorted(MUTATION_COUNTER.items(), key=lambda x: -x[1]):
+        pct = 100 * count / total
+        print(f"    {name:40s}: {count:6d} ({pct:5.1f}%)")
 
 from invariants import compute_invariants, needed_invariants
 from graph_utils import (
@@ -197,15 +216,17 @@ def search_counterexample(
 
     mutations = get_mutations(classes)
     iteration = 0
+    restart_count = 0
+    score_at_last_restart = best_score
+    iter_at_last_restart = 0
 
-    # ── Boucle principale ────────────────────────────────────
+    # ── Boucle principale avec multi-restart ────────────────
     while True:
         elapsed = time.time() - start_time
         if elapsed >= time_limit:
             break
 
         # Vérifier si on a trouvé un contre-exemple
-        # satisfies_class via thread pour éviter tout blocage
         _class_ok = [False]
         def _chk():
             _class_ok[0] = satisfies_class(best_graph, classes)
@@ -229,23 +250,64 @@ def search_counterexample(
 
         iteration += 1
 
-        # Sélectionner des candidats (top 50% de la population)
+        # ── HARD RESTART si bloqué ───────────────────────────
+        # Si le score n'a pas bougé depuis 150 itérations -> repartir de zéro
+        iters_since_restart = iteration - iter_at_last_restart
+        score_progress = scored_pop[0][0] - score_at_last_restart
+
+        if iters_since_restart > 150 and score_progress < 0.01:
+            restart_count += 1
+            if verbose:
+                print(f"    🔄 Restart #{restart_count} (iter={iteration}, t={elapsed:.1f}s, score={scored_pop[0][0]:.4f})")
+
+            # Nouvelle population depuis une direction différente
+            new_pop = generate_initial_population(conjecture, size=pop_size, n_range=n_range)
+            new_scored = []
+            for G_r in new_pop:
+                if time.time() - start_time >= time_limit:
+                    break
+                try:
+                    G_r = repair(G_r, classes)
+                    if not nx.is_connected(G_r):
+                        continue
+                    inv_r = compute_invariants_safe(G_r, needed, time_limit - (time.time() - start_time))
+                    if not inv_r:
+                        continue
+                    _needs_chk_r = any(c in ['claw_free','tree','bipartite'] for c in [x.lower() for x in classes])
+                    if _needs_chk_r:
+                        from graph_utils import satisfies_class as _sc_r
+                        if not _sc_r(G_r, classes):
+                            continue
+                    score_r = score_fn(G_r, inv_r, conjecture)
+                    new_scored.append((score_r, G_r, inv_r))
+                except Exception:
+                    pass
+
+            if new_scored:
+                # Garder le meilleur actuel + toute la nouvelle population
+                scored_pop = sorted(
+                    scored_pop[:1] + new_scored,
+                    key=lambda x: x[0],
+                    reverse=True
+                )[:pop_size]
+
+            score_at_last_restart = scored_pop[0][0]
+            iter_at_last_restart = iteration
+
+        # ── Sélection et mutations ───────────────────────────
         top_k = max(1, len(scored_pop) // 2)
         candidates = scored_pop[:top_k]
 
         new_candidates = []
         for _ in range(pop_size):
-            # Vérification du temps à chaque candidat généré
             if time.time() - start_time >= time_limit:
                 break
 
             _, G, _ = random.choice(candidates)
 
-            # Appliquer une ou plusieurs mutations
             num_mutations = random.choices([1, 2, 3], weights=[0.6, 0.3, 0.1])[0]
             H = G.copy()
             for _ in range(num_mutations):
-                # Eviter de faire grossir les graphes si on a une taille cible
                 if n_range and H.number_of_nodes() >= n_range[1]:
                     safe_mutations = [m for m in mutations if m.__name__ not in
                                       ("mutate_add_vertex", "mutate_add_leaf",
@@ -255,24 +317,21 @@ def search_counterexample(
                 else:
                     mut_fn = random.choice(mutations)
                 H = mut_fn(H)
+                MUTATION_COUNTER[mut_fn.__name__] += 1
 
-            # Réparation avec timeout
             try:
                 H = repair(H, classes)
             except Exception:
                 continue
 
-            # Calcul des invariants et score avec timeout
             try:
                 inv = compute_invariants_safe(H, needed, time_limit - (time.time() - start_time))
                 if inv is None:
-                    break  # Plus de temps
-                # Rejeter les graphes invalides
+                    break
                 if not inv or inv.get('n', 0) < 2:
                     continue
                 if not nx.is_connected(H):
                     continue
-                # Vérifier la classe seulement pour claw_free et tree (repair ne suffit pas)
                 _needs_class_check = any(c in ['claw_free', 'tree', 'bipartite'] for c in [x.lower() for x in classes])
                 if _needs_class_check:
                     from graph_utils import satisfies_class as _sc
@@ -283,14 +342,12 @@ def search_counterexample(
             except Exception:
                 continue
 
-        # Mise à jour de la population (élitisme: garder les meilleurs)
         scored_pop = sorted(
             scored_pop + new_candidates,
             key=lambda x: x[0],
             reverse=True
         )[:pop_size]
 
-        # Mise à jour du meilleur
         if scored_pop[0][0] > best_score:
             best_score, best_graph, best_inv = scored_pop[0]
             best_violation = conjecture.violation(best_inv)
@@ -298,9 +355,8 @@ def search_counterexample(
                 print(f"    iter={iteration}, score={best_score:.4f}, violation={best_violation:.4f}, "
                       f"n={best_graph.number_of_nodes()}, t={elapsed:.1f}s")
 
-        # Diversification périodique (éviter les minima locaux)
+        # Diversification légère toutes les 30 itérations
         if iteration % 30 == 0:
-            # Réintroduire de la diversité
             new_randoms = generate_initial_population(conjecture, size=3, n_range=n_range)
             for G in new_randoms:
                 if time.time() - start_time >= time_limit:
@@ -317,25 +373,6 @@ def search_counterexample(
             scored_pop.sort(key=lambda x: x[0], reverse=True)
             scored_pop = scored_pop[:pop_size]
 
-        # Diversification périodique: injecter de nouveaux graphes
-        if iteration % 30 == 0:
-            new_randoms = generate_initial_population(conjecture, size=3, n_range=n_range)
-            for G_r in new_randoms:
-                if time.time() - start_time >= time_limit:
-                    break
-                try:
-                    G_r = repair(G_r, classes)
-                    if not nx.is_connected(G_r):
-                        continue
-                    inv_r = compute_invariants_safe(G_r, needed, time_limit - (time.time() - start_time))
-                    if not inv_r:
-                        continue
-                    score_r = score_fn(G_r, inv_r, conjecture)
-                    scored_pop.append((score_r, G_r, inv_r))
-                except Exception:
-                    pass
-            scored_pop.sort(key=lambda x: x[0], reverse=True)
-            scored_pop = scored_pop[:pop_size]
 
     # ── Retour sans contre-exemple ───────────────────────────
     elapsed = time.time() - start_time

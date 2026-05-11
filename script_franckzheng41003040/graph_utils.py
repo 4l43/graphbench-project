@@ -389,6 +389,133 @@ def mutate_claw_free_add_clique(G):
     return mutate_add_clique(G, size=random.randint(2, 4))
 
 
+
+# ══════════════════════════════════════════════════════════════
+#  NOUVELLES MUTATIONS
+# ══════════════════════════════════════════════════════════════
+
+def mutate_contract_edge(G):
+    """Contracte une arête (fusionne deux sommets adjacents)."""
+    G = G.copy()
+    edges = list(G.edges())
+    if not edges or G.number_of_nodes() <= 3:
+        return G
+    u, v = random.choice(edges)
+    # Fusionner v dans u
+    for w in list(G.neighbors(v)):
+        if w != u:
+            G.add_edge(u, w)
+    G.remove_node(v)
+    G = nx.convert_node_labels_to_integers(G)
+    return G
+
+def mutate_duplicate_vertex(G):
+    """Duplique un sommet (faux jumeaux) : nouveau sommet avec mêmes voisins."""
+    G = G.copy()
+    nodes = list(G.nodes())
+    if not nodes:
+        return G
+    v = random.choice(nodes)
+    new_node = max(G.nodes()) + 1
+    for w in list(G.neighbors(v)):
+        G.add_edge(new_node, w)
+    # Relier aussi le nouveau sommet à v (vrais jumeaux)
+    if random.random() > 0.5:
+        G.add_edge(new_node, v)
+    return G
+
+def mutate_add_triangle(G):
+    """Ajoute un triangle à un sommet existant."""
+    G = G.copy()
+    nodes = list(G.nodes())
+    if not nodes:
+        return G
+    v = random.choice(nodes)
+    n1 = max(G.nodes()) + 1
+    n2 = n1 + 1
+    G.add_edge(v, n1)
+    G.add_edge(v, n2)
+    G.add_edge(n1, n2)
+    return G
+
+def mutate_add_pendant_path(G):
+    """Ajoute un chemin pendant de longueur 2-4."""
+    G = G.copy()
+    if G.number_of_nodes() == 0:
+        return G
+    anchor = random.choice(list(G.nodes()))
+    length = random.randint(2, 4)
+    prev = anchor
+    start = max(G.nodes()) + 1
+    for i in range(length):
+        new_node = start + i
+        G.add_edge(prev, new_node)
+        prev = new_node
+    return G
+
+def mutate_swap_edges(G):
+    """Échange deux arêtes (uv et xy -> ux et vy) sans changer les degrés."""
+    G = G.copy()
+    edges = list(G.edges())
+    if len(edges) < 2:
+        return G
+    for _ in range(10):
+        (u, v), (x, y) = random.sample(edges, 2)
+        if len({u, v, x, y}) == 4:
+            if not G.has_edge(u, x) and not G.has_edge(v, y):
+                G.remove_edge(u, v)
+                G.remove_edge(x, y)
+                G.add_edge(u, x)
+                G.add_edge(v, y)
+                return G
+    return G
+
+def mutate_remove_bridge(G):
+    """Supprime un pont (arête dont la suppression déconnecte) et reconnecte."""
+    G = G.copy()
+    bridges = list(nx.bridges(G))
+    if not bridges:
+        return mutate_remove_edge(G)
+    u, v = random.choice(bridges)
+    G.remove_edge(u, v)
+    G = make_connected(G)
+    return G
+
+def mutate_add_star(G):
+    """Ajoute une étoile K_{1,k} reliée au graphe."""
+    G = G.copy()
+    k = random.randint(2, 4)
+    center = max(G.nodes(), default=-1) + 1
+    leaves = list(range(center + 1, center + 1 + k))
+    for leaf in leaves:
+        G.add_edge(center, leaf)
+    # Relier le centre au graphe existant
+    existing = [n for n in G.nodes() if n != center and n not in leaves]
+    if existing:
+        G.add_edge(center, random.choice(existing))
+    return G
+
+def mutate_change_degree(G):
+    """Change le degré d'un sommet en ajoutant/supprimant des arêtes."""
+    G = G.copy()
+    nodes = list(G.nodes())
+    if not nodes:
+        return G
+    v = random.choice(nodes)
+    if random.random() > 0.5:
+        # Augmenter le degré
+        non_neighbors = [u for u in nodes if u != v and not G.has_edge(u, v)]
+        if non_neighbors:
+            u = random.choice(non_neighbors)
+            G.add_edge(v, u)
+    else:
+        # Diminuer le degré
+        neighbors = list(G.neighbors(v))
+        if len(neighbors) > 1:
+            u = random.choice(neighbors)
+            G.remove_edge(v, u)
+    return G
+
 # Registre de mutations par classe
 MUTATIONS = {
     "connected": [
@@ -399,18 +526,32 @@ MUTATIONS = {
         mutate_rewire_edge,
         mutate_add_clique,
         mutate_add_path,
+        # Nouvelles mutations
+        mutate_contract_edge,
+        mutate_duplicate_vertex,
+        mutate_add_triangle,
+        mutate_add_pendant_path,
+        mutate_swap_edges,
+        mutate_remove_bridge,
+        mutate_add_star,
+        mutate_change_degree,
     ],
     "tree": [
         mutate_tree_add_leaf,
         mutate_tree_remove_leaf,
         mutate_tree_subdivide,
         mutate_add_path,
+        mutate_add_pendant_path,
+        mutate_contract_edge,
     ],
     "claw_free": [
         mutate_claw_free_add_edge,
         mutate_claw_free_add_clique,
         mutate_add_vertex,
         mutate_remove_vertex,
+        mutate_duplicate_vertex,
+        mutate_add_triangle,
+        mutate_rewire_edge,
     ],
 }
 

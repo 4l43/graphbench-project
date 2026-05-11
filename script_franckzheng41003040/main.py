@@ -173,6 +173,12 @@ def run_benchmark(conjectures, time_limit=60, use_funsearch=False,
     print(f"  Résultats sauvegardés: {results_file}")
     print("=" * 65)
 
+    # Afficher les statistiques de mutations
+    print()
+    print("=== STATISTIQUES DES MUTATIONS ===")
+    from heuristic import print_mutation_stats
+    print_mutation_stats()
+
     return all_results, n_found, total_cost
 
 
