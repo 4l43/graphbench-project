@@ -1,0 +1,18 @@
+[
+  {
+    "score": 259.60443442593726,
+    "body": "return (\n    10.0 * violation\n    + 0.3 * diam\n    + 0.2 * Delta\n    + 0.1 * triangles\n    - 0.05 * n\n    - 0.2 * abs(density - 0.5)\n)"
+  },
+  {
+    "score": 242.51170715320978,
+    "body": "return (\n    10.0 * violation\n    + 0.4 * diam\n    + 0.3 * (Delta - delta)\n    + 0.2 * mu\n    - 0.02 * n\n    + 0.1 * clique\n)"
+  },
+  {
+    "score": 146.1042042042041,
+    "body": "return violation"
+  },
+  {
+    "score": 126.95555555555555,
+    "body": "x_val = invariants.get(conjecture.x_name, 0); y_val = invariants.get(conjecture.y_name, 0); bound = conjecture.bound(x_val); gap = (y_val - bound) if conjecture.sign == \"<=\" else (bound - y_val); return (10.0 * violation + 2.0 * gap + 0.1 * (alpha - tau) - 0.03 * n + (0.2 * (Delta - delta) if Delta > 0 else 0))"
+  }
+]
