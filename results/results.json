@@ -4,9 +4,9 @@
     "conjecture_text": "If G is a connected graph, x = maximum_degree and y = triangle_number, then y(G) <= - 1/6 * x(G) + 1/6 * x(G)\u00b3",
     "found": true,
     "violation": 1.0,
-    "time_elapsed": 0.47139453887939453,
-    "cost": 0.47139453887939453,
-    "graph6": "~?@F?CO????O?P??@??@C?a??????OA??C?????W?D?C???A?GA????G?P??????Q?????@A???A?@??@?OI@?A??G???Y_??C?O???_?A?????I?CA@???????????G?????@?????????????G??C???Y??O?????AG???@???????????????_??????@???????@????A???????????G???????B??????O??????????G????O???W?????????????????@?C???????W_????????A????????@????????????????@???_?????????W???G????[??????????G??????????_G??????????O??????????C???????A??B???????G?K??????O??B_???",
+    "time_elapsed": 0.10344982147216797,
+    "cost": 0.10344982147216797,
+    "graph6": "~?@@?COA???O????_??PC?`????C?OA??C?????W???C???A?GAO?????P??????Q?????@A???A?@?_@?OA@??GEG?@_?A?A?BS???O@???@??C?????I?C@??D?A?_?Q??_B_???`???????????????G??????[??????????????I??????@_?_??????@?????@???????A????????G???????B?????????????????G?????_??W?????????????C???@?????????W?????????????G????@?????????B@???????????????????G?????????B??????????[",
     "invariants": {
       "maximum_degree": 5.0,
       "triangle_number": 21.0
@@ -16,38 +16,38 @@
     "conjecture_id": 980,
     "conjecture_text": "If G is a connected graph, x = average_degree and y = clique_number, then y(G) <= - 1/2 + 15/8 * x(G)",
     "found": true,
-    "violation": 0.4375,
-    "time_elapsed": 0.004512786865234375,
-    "cost": 0.004512786865234375,
-    "graph6": "W~aCCA?_C?O?_?_?O?C??_?A??C??C??A???_??C???O???",
+    "violation": 1.6953125,
+    "time_elapsed": 0.0015587806701660156,
+    "cost": 0.0015587806701660156,
+    "graph6": "_~~{CA?_C?O?_?_?O?C??_?A??C??C??A???_??C???O???_???_???O???C????_???A????C????C?????",
     "invariants": {
-      "average_degree": 2.1666666666666665,
-      "clique_number": 4.0
+      "average_degree": 2.5625,
+      "clique_number": 6.0
     }
   },
   {
     "conjecture_id": 981,
     "conjecture_text": "If G is a connected graph, x = average_degree and y = clique_number, then y(G) <= 5/3 * x(G)",
     "found": true,
-    "violation": 2.2525252525252517,
-    "time_elapsed": 0.0036034584045410156,
-    "cost": 0.0036034584045410156,
-    "graph6": "`~~~{A?_C?O?_?_?O?C??_?A??C??C??A???_??C???O???_???_???O???C????_???A????C????C????A?????",
+    "violation": 1.784313725490196,
+    "time_elapsed": 0.0013287067413330078,
+    "cost": 0.0013287067413330078,
+    "graph6": "a~~{CA?_C?O?_?_?O?C??_?A??C??C??A???_??C???O???_???_???O???C????_???A????C????C????A?????_?????",
     "invariants": {
-      "average_degree": 2.8484848484848486,
-      "clique_number": 7.0
+      "average_degree": 2.5294117647058822,
+      "clique_number": 6.0
     }
   },
   {
     "conjecture_id": 1177,
     "conjecture_text": "If G is a connected graph, x = clique_number and y = average_degree, then y(G) >= 4/15 + 8/15 * x(G)",
     "found": true,
-    "violation": 1.452252252252252,
-    "time_elapsed": 0.004289388656616211,
-    "cost": 0.004289388656616211,
-    "graph6": "d~~~~}?_C?O?_?_?O?C??_?A??C??C??A???_??C???O???_???_???O???C????_???A????C????C????A?????_????C?????O?????_?????",
+    "violation": 1.663768115942029,
+    "time_elapsed": 0.0016527175903320312,
+    "cost": 0.0016527175903320312,
+    "graph6": "m~~~~}?_C?O?_?_?O?C??_?A??C??C??A???_??C???O???_???_???O???C????_???A????C????C????A?????_????C?????O?????_?????_?????O?????C??????_?????A??????C??????C??????A???????_???????",
     "invariants": {
-      "average_degree": 3.081081081081081,
+      "average_degree": 2.869565217391304,
       "clique_number": 8.0
     }
   },
@@ -55,13 +55,442 @@
     "conjecture_id": 1178,
     "conjecture_text": "If G is a connected graph, x = clique_number and y = average_degree, then y(G) >= 3/5 * x(G)",
     "found": true,
-    "violation": 1.2967741935483872,
-    "time_elapsed": 0.006734132766723633,
-    "cost": 0.006734132766723633,
-    "graph6": "^~~~{A?_C?O?_?_?O?C??_?A??C??C??A???_??C???O???_???_???O???C????_???A????C?????",
+    "violation": 1.4666666666666663,
+    "time_elapsed": 0.0013890266418457031,
+    "cost": 0.0013890266418457031,
+    "graph6": "]~~~~}?_C?O?_?_?O?C??_?A??C??C??A???_??C???O???_???_???O???C????_???A?????",
     "invariants": {
-      "average_degree": 2.903225806451613,
+      "average_degree": 3.3333333333333335,
+      "clique_number": 8.0
+    }
+  },
+  {
+    "conjecture_id": 1191,
+    "conjecture_text": "If G is a connected graph, x = clique_number and y = minimum_degree, then y(G) <= 106807/693000 + 29551/8316 * x(G) - 39/77 * x(G)\u00b2 + 29/1188 * x(G)\u00b3",
+    "found": true,
+    "violation": 0.0846940836940826,
+    "time_elapsed": 0.14436864852905273,
+    "cost": 0.14436864852905273,
+    "graph6": "LrXc}y]W{xk\\nD",
+    "invariants": {
+      "minimum_degree": 7.0,
+      "clique_number": 3.0
+    }
+  },
+  {
+    "conjecture_id": 1466,
+    "conjecture_text": "If G is a connected graph, x = domination_number and y = independent_domination_number, then y(G) <= - 51407/7000 + 254/21 * x(G) - 25/7 * x(G)\u00b2 + 1/3 * x(G)\u00b3",
+    "found": true,
+    "violation": 3.4867142857142923,
+    "time_elapsed": 0.0015289783477783203,
+    "cost": 0.0015289783477783203,
+    "graph6": "P?AC??HKMcC?@AOG@@BOO?C?",
+    "invariants": {
+      "independent_domination_number": 9.0,
+      "domination_number": 5.0
+    }
+  },
+  {
+    "conjecture_id": 1566,
+    "conjecture_text": "If G is a connected graph, x = total_domination_number and y = independence_number, then y(G) >= - 1 + x(G)",
+    "found": true,
+    "violation": 2.0,
+    "time_elapsed": 0.0035898685455322266,
+    "cost": 0.0035898685455322266,
+    "graph6": "G_Ocv?",
+    "invariants": {
+      "total_domination_number": 7.0,
+      "independence_number": 4.0
+    }
+  },
+  {
+    "conjecture_id": 1587,
+    "conjecture_text": "If G is a connected graph, x = total_domination_number and y = matching_number, then y(G) >= - 1/3 + 2/3 * x(G)",
+    "found": true,
+    "violation": 0.666666666666667,
+    "time_elapsed": 0.0037000179290771484,
+    "cost": 0.0037000179290771484,
+    "graph6": "N@?Q?H?_@IAC?@ACOC?",
+    "invariants": {
+      "total_domination_number": 12.0,
+      "matching_number": 7.0
+    }
+  },
+  {
+    "conjecture_id": 1588,
+    "conjecture_text": "If G is a connected graph, x = total_domination_number and y = matching_number, then y(G) >= - 2 + x(G)",
+    "found": true,
+    "violation": 2.0,
+    "time_elapsed": 0.009359598159790039,
+    "cost": 0.009359598159790039,
+    "graph6": "LOAg?Ho?@D?GoC",
+    "invariants": {
+      "total_domination_number": 10.0,
+      "matching_number": 6.0
+    }
+  },
+  {
+    "conjecture_id": 1600,
+    "conjecture_text": "If G is a connected graph, x = total_domination_number and y = vertex_cover_number, then y(G) >= - 1/3 + 2/3 * x(G)",
+    "found": true,
+    "violation": 0.33333333333333215,
+    "time_elapsed": 0.016317129135131836,
+    "cost": 0.016317129135131836,
+    "graph6": "QGdUP_C?O_c?AAGO??C@@C???G?",
+    "invariants": {
+      "vertex_cover_number": 8.0,
+      "total_domination_number": 13.0
+    }
+  },
+  {
+    "conjecture_id": 1601,
+    "conjecture_text": "If G is a connected graph, x = total_domination_number and y = vertex_cover_number, then y(G) >= - 2 + x(G)",
+    "found": true,
+    "violation": 3.0,
+    "time_elapsed": 0.004034996032714844,
+    "cost": 0.004034996032714844,
+    "graph6": "S??GGC?A`@WC??C?gG@AgQO@O_??O?i@_",
+    "invariants": {
+      "vertex_cover_number": 10.0,
+      "total_domination_number": 15.0
+    }
+  },
+  {
+    "conjecture_id": 1708,
+    "conjecture_text": "If G is a connected graph, x = independence_number and y = total_domination_number, then y(G) <= 1 + x(G)",
+    "found": true,
+    "violation": 1.0,
+    "time_elapsed": 0.0036094188690185547,
+    "cost": 0.0036094188690185547,
+    "graph6": "Lgif]@C``_OAAK",
+    "invariants": {
+      "total_domination_number": 7.0,
+      "independence_number": 5.0
+    }
+  },
+  {
+    "conjecture_id": 1880,
+    "conjecture_text": "If G is a connected graph, x = vertex_cover_number and y = independent_domination_number, then y(G) <= - 3 + 4 * x(G)",
+    "found": true,
+    "violation": 2.0,
+    "time_elapsed": 0.04668927192687988,
+    "cost": 0.04668927192687988,
+    "graph6": "Cs",
+    "invariants": {
+      "vertex_cover_number": 1.0,
+      "independent_domination_number": 3.0
+    }
+  },
+  {
+    "conjecture_id": 1891,
+    "conjecture_text": "If G is a connected graph, x = vertex_cover_number and y = total_domination_number, then y(G) <= 1/2 + 3/2 * x(G)",
+    "found": true,
+    "violation": 0.5,
+    "time_elapsed": 0.016101360321044922,
+    "cost": 0.016101360321044922,
+    "graph6": "NOGB@CAlCR_`?_G???G",
+    "invariants": {
+      "vertex_cover_number": 6.0,
+      "total_domination_number": 10.0
+    }
+  },
+  {
+    "conjecture_id": 2041,
+    "conjecture_text": "If G is a connected graph, x = independent_domination_number and y = matching_number, then y(G) >= 3/4 + 1/4 * x(G)",
+    "found": true,
+    "violation": 0.25,
+    "time_elapsed": 0.01842045783996582,
+    "cost": 0.01842045783996582,
+    "graph6": "BW",
+    "invariants": {
+      "independent_domination_number": 2.0,
+      "matching_number": 1.0
+    }
+  },
+  {
+    "conjecture_id": 2051,
+    "conjecture_text": "If G is a connected graph, x = independent_domination_number and y = vertex_cover_number, then y(G) >= 3/4 + 1/4 * x(G)",
+    "found": true,
+    "violation": 0.25,
+    "time_elapsed": 0.005392551422119141,
+    "cost": 0.005392551422119141,
+    "graph6": "Bo",
+    "invariants": {
+      "vertex_cover_number": 1.0,
+      "independent_domination_number": 2.0
+    }
+  },
+  {
+    "conjecture_id": 2117,
+    "conjecture_text": "If G is a connected graph, x = matching_number and y = independent_domination_number, then y(G) <= - 51407/7000 + 254/21 * x(G) - 25/7 * x(G)\u00b2 + 1/3 * x(G)\u00b3",
+    "found": true,
+    "violation": 0.4867142857142923,
+    "time_elapsed": 0.007441520690917969,
+    "cost": 0.007441520690917969,
+    "graph6": "Jecb?`HA?@?",
+    "invariants": {
+      "independent_domination_number": 6.0,
+      "matching_number": 5.0
+    }
+  },
+  {
+    "conjecture_id": 2120,
+    "conjecture_text": "If G is a connected graph, x = matching_number and y = total_domination_number, then y(G) <= 1/2 + 3/2 * x(G)",
+    "found": true,
+    "violation": 1.5,
+    "time_elapsed": 0.011026859283447266,
+    "cost": 0.011026859283447266,
+    "graph6": "DqG",
+    "invariants": {
+      "total_domination_number": 5.0,
+      "matching_number": 2.0
+    }
+  },
+  {
+    "conjecture_id": 2121,
+    "conjecture_text": "If G is a connected graph, x = matching_number and y = total_domination_number, then y(G) <= 2 + x(G)",
+    "found": true,
+    "violation": 2.0,
+    "time_elapsed": 0.0034682750701904297,
+    "cost": 0.0034682750701904297,
+    "graph6": "S???_`?s?r??G@Cq__WP??G@C??A????g",
+    "invariants": {
+      "total_domination_number": 13.0,
+      "matching_number": 9.0
+    }
+  },
+  {
+    "conjecture_id": 4247,
+    "conjecture_text": "If G is a connected graph, tree, x = diameter and y = independent_domination_number, then y(G) <= - 7 + 4 * x(G)",
+    "found": true,
+    "violation": 1.0,
+    "time_elapsed": 0.02059769630432129,
+    "cost": 0.02059769630432129,
+    "graph6": "Bo",
+    "invariants": {
+      "independent_domination_number": 2.0,
+      "diameter": 2.0
+    }
+  },
+  {
+    "conjecture_id": 4668,
+    "conjecture_text": "If G is a connected graph, tree, x = vertex_cover_number and y = independent_domination_number, then y(G) <= - 51407/7000 + 254/21 * x(G) - 25/7 * x(G)\u00b2 + 1/3 * x(G)\u00b3",
+    "found": true,
+    "violation": 3.4867142857142923,
+    "time_elapsed": 0.0038094520568847656,
+    "cost": 0.0038094520568847656,
+    "graph6": "M_O@@??@C@??N@G??",
+    "invariants": {
+      "vertex_cover_number": 5.0,
+      "independent_domination_number": 9.0
+    }
+  },
+  {
+    "conjecture_id": 4712,
+    "conjecture_text": "If G is a connected graph, tree, x = independent_domination_number and y = diameter, then y(G) >= 7/4 + 1/4 * x(G)",
+    "found": true,
+    "violation": 0.75,
+    "time_elapsed": 0.026737451553344727,
+    "cost": 0.026737451553344727,
+    "graph6": "DXG",
+    "invariants": {
+      "independent_domination_number": 4.0,
+      "diameter": 2.0
+    }
+  },
+  {
+    "conjecture_id": 5952,
+    "conjecture_text": "If G is a connected graph, claw_free, x = diameter and y = independence_number, then y(G) <= 2 + x(G)",
+    "found": true,
+    "violation": 1.0,
+    "time_elapsed": 0.05031108856201172,
+    "cost": 0.05031108856201172,
+    "graph6": "c`GkKSHOCeA@@__qoXhwWkqWOkUKCAKcEBXgZCCQR_AgAcJBw_qA[?IdaAEL]Rp`oC?gWHb?J?RH?]M@?K?O?R?`kCBt?@H`?W?AE?d?_P",
+    "invariants": {
+      "diameter": 3.0,
+      "independence_number": 6.0
+    }
+  },
+  {
+    "conjecture_id": 5994,
+    "conjecture_text": "If G is a connected graph, claw_free, x = radius and y = domination_number, then y(G) <= - 61407/7000 + 667/42 * x(G) - 155/28 * x(G)\u00b2 + 7/12 * x(G)\u00b3",
+    "found": true,
+    "violation": 1.486714285714278,
+    "time_elapsed": 0.5314576625823975,
+    "cost": 0.5314576625823975,
+    "graph6": "QJlDRwzX~s???@_@im????@C??W",
+    "invariants": {
+      "domination_number": 5.0,
+      "radius": 4.0
+    }
+  },
+  {
+    "conjecture_id": 5996,
+    "conjecture_text": "If G is a connected graph, claw_free, x = radius and y = total_domination_number, then y(G) <= - 36207/7000 + 218/21 * x(G) - 23/7 * x(G)\u00b2 + 1/3 * x(G)\u00b3",
+    "found": true,
+    "violation": 1.8867142857142856,
+    "time_elapsed": 1.087373971939087,
+    "cost": 1.087373971939087,
+    "graph6": "Y`aLyP`GM?`gqR[wPrEG[sAcC[qBrIbASuDSPXTxcrLCeaewMe@EPaO?",
+    "invariants": {
+      "total_domination_number": 7.0,
+      "radius": 2.0
+    }
+  },
+  {
+    "conjecture_id": 5998,
+    "conjecture_text": "If G is a connected graph, claw_free, x = radius and y = independence_number, then y(G) <= - 19407/7000 + 115/14 * x(G) - 71/28 * x(G)\u00b2 + 1/4 * x(G)\u00b3",
+    "found": true,
+    "violation": 0.486714285714287,
+    "time_elapsed": 3.07096529006958,
+    "cost": 3.07096529006958,
+    "graph6": "c|AWWC@K?E_\\wrKCEMG?ow?c?XSj@A[?BgAGdED_Bpk`rAjBh?P?NDF`?BCA?oiywWii?oPw?`{bAKGPG@F??@[?cdr_c?A@GAEaG?GgAD",
+    "invariants": {
+      "radius": 2.0,
+      "independence_number": 6.0
+    }
+  },
+  {
+    "conjecture_id": 6000,
+    "conjecture_text": "If G is a connected graph, claw_free, x = radius and y = independent_domination_number, then y(G) <= - 61407/7000 + 667/42 * x(G) - 155/28 * x(G)\u00b2 + 7/12 * x(G)\u00b3",
+    "found": true,
+    "violation": 0.20099999999999163,
+    "time_elapsed": 0.10763764381408691,
+    "cost": 0.10763764381408691,
+    "graph6": "Q~?XV_mFag`cAc?@??wAA?Ok@Aw",
+    "invariants": {
+      "independent_domination_number": 5.0,
+      "radius": 3.0
+    }
+  },
+  {
+    "conjecture_id": 6179,
+    "conjecture_text": "If G is a connected graph, claw_free, x = maximum_degree and y = average_degree, then y(G) >= - 1/4 + 7/12 * x(G)",
+    "found": true,
+    "violation": 0.25,
+    "time_elapsed": 0.0450589656829834,
+    "cost": 0.0450589656829834,
+    "graph6": "QlBGW^S?@__B????_AGC???C??G",
+    "invariants": {
+      "maximum_degree": 6.0,
+      "average_degree": 3.0
+    }
+  },
+  {
+    "conjecture_id": 6180,
+    "conjecture_text": "If G is a connected graph, claw_free, x = maximum_degree and y = average_degree, then y(G) >= 4/9 + 4/9 * x(G)",
+    "found": true,
+    "violation": 0.12121212121212155,
+    "time_elapsed": 0.0534210205078125,
+    "cost": 0.0534210205078125,
+    "graph6": "JYaGGMKC??_",
+    "invariants": {
+      "maximum_degree": 5.0,
+      "average_degree": 2.5454545454545454
+    }
+  },
+  {
+    "conjecture_id": 6181,
+    "conjecture_text": "If G is a connected graph, claw_free, x = maximum_degree and y = average_degree, then y(G) >= 1/6 + 37/72 * x(G)",
+    "found": true,
+    "violation": 0.7999999999999998,
+    "time_elapsed": 0.057900428771972656,
+    "cost": 0.057900428771972656,
+    "graph6": "]~~~~~~~wO`R?p@??CG?O??C??W??w?????@O??Y???}??B@?O?????_???G???O????C????G",
+    "invariants": {
+      "maximum_degree": 12.0,
+      "average_degree": 5.533333333333333
+    }
+  },
+  {
+    "conjecture_id": 6182,
+    "conjecture_text": "If G is a connected graph, claw_free, x = maximum_degree and y = average_degree, then y(G) >= 130981/231000 + 9293/33264 * x(G) + 101/3024 * x(G)\u00b2 - 1/792 * x(G)\u00b3",
+    "found": true,
+    "violation": 0.11471547555758121,
+    "time_elapsed": 0.03540611267089844,
+    "cost": 0.03540611267089844,
+    "graph6": "RkcGW?@Bw_?@?B????G?H?????GG?G",
+    "invariants": {
+      "maximum_degree": 5.0,
+      "average_degree": 2.526315789473684
+    }
+  },
+  {
+    "conjecture_id": 6267,
+    "conjecture_text": "If G is a connected graph, claw_free, x = average_degree and y = maximum_degree, then y(G) <= 3/7 + 12/7 * x(G)",
+    "found": true,
+    "violation": 0.35714285714285765,
+    "time_elapsed": 0.023677349090576172,
+    "cost": 0.023677349090576172,
+    "graph6": "O`KhGE?S?B@_?@?@_?xKN",
+    "invariants": {
+      "maximum_degree": 7.0,
+      "average_degree": 3.625
+    }
+  },
+  {
+    "conjecture_id": 6268,
+    "conjecture_text": "If G is a connected graph, claw_free, x = average_degree and y = maximum_degree, then y(G) <= - 1 + 9/4 * x(G)",
+    "found": true,
+    "violation": 0.1538461538461542,
+    "time_elapsed": 0.06329202651977539,
+    "cost": 0.06329202651977539,
+    "graph6": "L`p?OCY?C?__?@",
+    "invariants": {
+      "maximum_degree": 4.0,
+      "average_degree": 2.1538461538461537
+    }
+  },
+  {
+    "conjecture_id": 6269,
+    "conjecture_text": "If G is a connected graph, claw_free, x = average_degree and y = maximum_degree, then y(G) <= - 12/37 + 72/37 * x(G)",
+    "found": true,
+    "violation": 0.0432432432432428,
+    "time_elapsed": 0.02647995948791504,
+    "cost": 0.02647995948791504,
+    "graph6": "IwMCI?@?G",
+    "invariants": {
+      "maximum_degree": 4.0,
+      "average_degree": 2.2
+    }
+  },
+  {
+    "conjecture_id": 6272,
+    "conjecture_text": "If G is a connected graph, claw_free, x = average_degree and y = clique_number, then y(G) <= - 2/5 + 9/5 * x(G)",
+    "found": true,
+    "violation": 0.07999999999999963,
+    "time_elapsed": 0.16573357582092285,
+    "cost": 0.16573357582092285,
+    "graph6": "NoCYw?H???c@?E??_?G",
+    "invariants": {
+      "average_degree": 2.4,
+      "clique_number": 4.0
+    }
+  },
+  {
+    "conjecture_id": 6278,
+    "conjecture_text": "If G is a connected graph, claw_free, x = average_degree and y = clique_number, then y(G) <= 696548/571895 + 293202/136243 * x(G) - 209954/937553 * x(G)\u00b2 + 1851/143365 * x(G)\u00b3",
+    "found": true,
+    "violation": 0.06249083931495836,
+    "time_elapsed": 0.35924315452575684,
+    "cost": 0.35924315452575684,
+    "graph6": "]~Bovg??K@o@?@A_??G?@|R??EB?KG?C???o???G??@_??????B???@_??A?G???????C????W",
+    "invariants": {
+      "average_degree": 3.8666666666666667,
       "clique_number": 7.0
+    }
+  },
+  {
+    "conjecture_id": 6352,
+    "conjecture_text": "If G is a connected graph, claw_free, x = clique_number and y = average_degree, then y(G) >= 2/9 + 5/9 * x(G)",
+    "found": true,
+    "violation": 0.1428571428571428,
+    "time_elapsed": 0.05061149597167969,
+    "cost": 0.05061149597167969,
+    "graph6": "T{?Kw\\??G?_@A???_?G?@??K??G??G]????E",
+    "invariants": {
+      "average_degree": 2.857142857142857,
+      "clique_number": 5.0
     }
   }
 ]

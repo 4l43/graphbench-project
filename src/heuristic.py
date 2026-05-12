@@ -8,9 +8,58 @@ import random
 import threading
 import networkx as nx
 from collections import defaultdict
+import math
 
 # Compteur global des mutations utilisées (réinitialisé à chaque run)
 MUTATION_COUNTER = defaultdict(int)
+
+
+class AdaptiveMutationSelector:
+    """
+    Sélection adaptative de mutations par algorithme UCB1 (bandit manchot).
+    Favorise les mutations qui améliorent souvent le score.
+    """
+    def __init__(self, mutations):
+        self.mutations = mutations
+        self.counts = defaultdict(int)      # nb d'utilisations
+        self.rewards = defaultdict(float)   # somme des améliorations
+        self.total = 0
+
+    def select(self):
+        """Sélectionne une mutation via UCB1."""
+        # Phase d'exploration: essayer chaque mutation au moins 3 fois
+        for mut in self.mutations:
+            if self.counts[mut.__name__] < 3:
+                return mut
+
+        # Phase d'exploitation: UCB1
+        best_mut = None
+        best_score = -1
+        for mut in self.mutations:
+            n = self.counts[mut.__name__]
+            r = self.rewards[mut.__name__] / n if n > 0 else 0
+            ucb = r + math.sqrt(2 * math.log(self.total + 1) / (n + 1))
+            if ucb > best_score:
+                best_score = ucb
+                best_mut = mut
+        return best_mut
+
+    def update(self, mut_fn, improved: bool):
+        """Met à jour les statistiques après utilisation."""
+        name = mut_fn.__name__
+        self.counts[name] += 1
+        self.rewards[name] += 1.0 if improved else 0.0
+        self.total += 1
+        MUTATION_COUNTER[name] += 1
+
+    def stats(self):
+        """Retourne les taux de succès par mutation."""
+        result = {}
+        for mut in self.mutations:
+            n = self.counts[mut.__name__]
+            if n > 0:
+                result[mut.__name__] = self.rewards[mut.__name__] / n
+        return result
 
 def reset_mutation_counter():
     """Réinitialise le compteur de mutations."""
@@ -214,7 +263,8 @@ def search_counterexample(
     best_inv = scored_pop[0][2]
     best_violation = conjecture.violation(best_inv)
 
-    mutations = get_mutations(classes)
+    raw_mutations = get_mutations(classes)
+    selector = AdaptiveMutationSelector(raw_mutations)
     iteration = 0
     restart_count = 0
     score_at_last_restart = best_score
@@ -258,7 +308,14 @@ def search_counterexample(
         if iters_since_restart > 150 and score_progress < 0.01:
             restart_count += 1
             if verbose:
-                print(f"    🔄 Restart #{restart_count} (iter={iteration}, t={elapsed:.1f}s, score={scored_pop[0][0]:.4f})")
+                # Afficher les top mutations apprises
+                top_muts = sorted(selector.stats().items(), key=lambda x: -x[1])[:3]
+                top_str = ', '.join(f'{n}:{r:.0%}' for n,r in top_muts)
+                print(f"    🔄 Restart #{restart_count} (iter={iteration}, t={elapsed:.1f}s) top_muts=[{top_str}]")
+            # Réinitialiser partiellement le sélecteur (garder la mémoire)
+            for mut in raw_mutations:
+                selector.counts[mut.__name__] = max(0, selector.counts[mut.__name__] // 2)
+                selector.rewards[mut.__name__] = max(0, selector.rewards[mut.__name__] // 2)
 
             # Nouvelle population depuis une direction différente
             new_pop = generate_initial_population(conjecture, size=pop_size, n_range=n_range)
@@ -307,17 +364,19 @@ def search_counterexample(
 
             num_mutations = random.choices([1, 2, 3], weights=[0.6, 0.3, 0.1])[0]
             H = G.copy()
+            prev_score = scored_pop[0][0]
             for _ in range(num_mutations):
                 if n_range and H.number_of_nodes() >= n_range[1]:
-                    safe_mutations = [m for m in mutations if m.__name__ not in
-                                      ("mutate_add_vertex", "mutate_add_leaf",
-                                       "mutate_add_clique", "mutate_add_path",
-                                       "mutate_tree_add_leaf", "mutate_claw_free_add_clique")]
-                    mut_fn = random.choice(safe_mutations) if safe_mutations else random.choice(mutations)
+                    safe = [m for m in raw_mutations if m.__name__ not in
+                            ("mutate_add_vertex", "mutate_add_leaf",
+                             "mutate_add_clique", "mutate_add_path",
+                             "mutate_tree_add_leaf", "mutate_claw_free_add_clique")]
+                    mut_fn = random.choice(safe) if safe else selector.select()
+                    H = mut_fn(H)
+                    MUTATION_COUNTER[mut_fn.__name__] += 1
                 else:
-                    mut_fn = random.choice(mutations)
-                H = mut_fn(H)
-                MUTATION_COUNTER[mut_fn.__name__] += 1
+                    mut_fn = selector.select()
+                    H = mut_fn(H)
 
             try:
                 H = repair(H, classes)
@@ -339,6 +398,9 @@ def search_counterexample(
                         continue
                 score = score_fn(H, inv, conjecture)
                 new_candidates.append((score, H, inv))
+                # Feedback adaptatif: la mutation a-t-elle amélioré?
+                if n_range is None or H.number_of_nodes() < n_range[1]:
+                    selector.update(mut_fn, score > prev_score)
             except Exception:
                 continue
 
